@@ -3,6 +3,7 @@ A web application for users to get information and summaries about their playlis
 
 ## Languages and Packages
 Developed using Python 3.14.7
+TypeScript
 
 fastapi,
 uvicorn,
@@ -10,7 +11,7 @@ pandas,
 requests,
 python-multipart,
 python-dotenv,
-certifi,
+certifi
 
 ## Operating System and IDE
 MacOS
