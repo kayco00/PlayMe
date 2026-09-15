@@ -1,0 +1,7 @@
+Name,Artist,Composer,Album,Genre
+Todo Ray !,CA7RIEL & Paco Amoroso,"Catriel Guerreiro, Ulises Guerriero, Federico Vindver, Vicente Jiménez “vibarco”, Zacari Pacaldo & Rafa Arcaute",FREE SPIRITS,Rock y Alternativo
+HEADHIGH,Doja Cat,"Amala Zandile Dlamini, Kurtis Mckenzie & Emil Larbi",Scarlet 2 CLAUDE,Rap
+Ascension (Don't Ever Wonder) [Remastered 2021],Maxwell,Musze & Itaal Shur,Maxwell's Urban Hang Suite,R&B/Soul
+Patterns,Absolutely,Abby-Lynn Keen & Dave Hamelin,CEREBRUM,Pop
+Brooklyn Bridge To Chorus,The Strokes,The Strokes,The New Abnormal,Alternative
+Intro,The xx,"Baria Qureshi, Jamie Smith, Oliver Sim & Romy Madley Croft",xx (Deluxe),Alternative

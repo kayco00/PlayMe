@@ -1,0 +1,8 @@
+#Hiding the API key information
+.env
+.env.local
+
+__pycache__/
+*.pyc
+.venv/
+venv/
