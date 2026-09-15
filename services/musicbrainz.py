@@ -51,3 +51,28 @@ def musicLookup(artist_name:str) -> str | None:
         print(f"MusicBrainz Error for {artist_name}'.")
         return None
 
+def eventLookup(mbid: str, limit: int = 10)->list[dict]:
+
+    try: 
+        time.sleep(1.0)
+
+        response = musicbrainzngs.browse_events(
+            artist=mbid, includes=["place-rels", "area-rels"],limit=limit
+        )
+        events_list = response.get("event-list",[])
+
+        parsed_events = []
+        for event in events_list:
+            parsed_events.append({
+                "name": event.get("name"),
+                "begin_date":event.get("life-span",{}).get("begin"),
+            })
+        return parsed_events
+    
+    except musicbrainzngs.MusicBrainzError as mb_err:
+        print(f" MB Event Error")
+        return[]
+
+    except Exception as e:
+        print(f"Unexpected Error when browsing events for MBID {mbid}: {e}")
+        return[]

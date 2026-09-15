@@ -3,7 +3,7 @@ import io
 from pathlib import Path
 import re 
 import pandas as pd
-from musicbrainz import musicLookup, setup_musicbrainz
+from musicbrainz import musicLookup, setup_musicbrainz, eventLookup
 
 #cleaning the artist string in case of features
 def clean_string_artist(name: str)-> str:
@@ -48,13 +48,18 @@ if __name__ == "__main__":
                      print(f" {i}. {artist}")
 
                 artists_mbids = {}
+                artist_events = {}
                 for artist in artists:
                     mbid = musicLookup(artist)
                     if mbid:
                         artists_mbids[artist] = mbid
-                print("\n Artist's MBID's found:")
-                print(artists_mbids)
-
+                        events = eventLookup(mbid,limit=5)
+                        print(f"\nEvents for {artist}:")
+                        if events:
+                             for event in events:
+                                print(f" - {event['name']}, Date: {event['begin_date']}")
+                        else:
+                             print(". No Events Found")
         
             except Exception as e:
                 print(f"Error parsing file: {e}")
