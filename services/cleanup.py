@@ -3,7 +3,7 @@ import io
 from pathlib import Path
 import re 
 import pandas as pd
-from services import musicbrainz
+from musicbrainz import musicLookup, setup_musicbrainz
 
 #cleaning the artist string in case of features
 def clean_string_artist(name: str)-> str:
@@ -33,6 +33,7 @@ def clean_playlist(file_bytes: bytes, filename:str) -> list[str]:
 #printing the unique artists found in the artist column
 if __name__ == "__main__":
         example_file_path = Path(__file__).parent / "example.txt"
+        setup_musicbrainz()
 
         if not example_file_path.exists():
             print("Example file not found! Add a playlist .txt file into this folder")
@@ -45,10 +46,16 @@ if __name__ == "__main__":
                 print(f"Parsing Success\n{len(artists)} unique artists found in your playlist: ")
                 for i, artist in enumerate(artists, 1):
                      print(f" {i}. {artist}")
-            except Exception as e:
-                 print(f"Error parsing file: {e}")
 
-        artists_mbids = {}
-        for artist in artist:
-             mbid = musicbrainz.py(artist)
+                artists_mbids = {}
+                for artist in artists:
+                    mbid = musicLookup(artist)
+                    if mbid:
+                        artists_mbids[artist] = mbid
+                print("\n Artist's MBID's found:")
+                print(artists_mbids)
+
+        
+            except Exception as e:
+                print(f"Error parsing file: {e}")
 

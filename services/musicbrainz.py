@@ -1,29 +1,53 @@
+
+import time
+import re
+import ssl
+import certifi
 import musicbrainzngs
 
-musicbrainzngs.set_useragent(
-    "PlayMe",
-    "0.1",
-    "https://github.com/kayco00/PlayMe"
+def setup_musicbrainz():
+
+    ssl._create_default_https_context = lambda:ssl.create_default_context(cafile=certifi.where())
+
+    musicbrainzngs.set_useragent(
+        app="PlayMe",
+        version="0.7.1",
+        contact="https://github.com/kayco00/PlayMe"
 )
 
-def musicLookup(artist_name:str):
+def clean_string_artist(name: str) -> str:
+    pattern = r'\s+(feat\.|featuring|ft\.|with|&).*$'
+    cleaned = re.sub(pattern, '', name, flags=re.IGNORECASE)
+    return cleaned.strip()
+
+def musicLookup(artist_name:str) -> str | None:
 
     try:
-        result = musicbrainzngs.search_artists(artist=artist_name, limit=1)
+
+        time.sleep(1.0)
+        cleaned_name = clean_string_artist(artist_name)
+        query_str = f'artist:"{cleaned_name}"'
+        result = musicbrainzngs.search_artists(query=query_str, limit=1)
         artist_list = result.get("artist-list",[])
 
         if not artist_list:
-            print("Artist Not Found")
-            return
+            result = musicbrainzngs.search_artists(
+                artist = cleaned_name, limit=1
+            )
+            artist_list = result.get("artist-list",[])
 
-        first_match = artist_list[0]
-        artist_id = first_match["id"]
-        cannon_name = first_match["name"]
+        if artist_list:
+            match = artist_list[0]
+            mbid = match.get("id")
+            name = match.get("name")
+            print(f" Found: '{artist_name}' - '{name}' (MBID: {mbid})")
+            return mbid
 
-        print(f"Artist Found")
-        print(f"MBID: {artist_id}")
+        else:
+            print("No Match Found in API")
+            return None
 
-    except musicbrainzngs.WebServiceError as e:
-        print(f"Web Service Error: {e}")
     except Exception as e:
-        print(f"Error Occurred: {e}")
+        print(f"MusicBrainz Error for {artist_name}'.")
+        return None
+
